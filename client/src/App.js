@@ -7,6 +7,7 @@ import Home from "./compunent/Home/Home";
 import Contact from "./compunent/Contact/Contact";
 import About from "./compunent/About/About";
 import Navbar from "./compunent/Navbar/Navbar"
+import Dashboard from './compunent/Dashboard/Dashboard';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         {/* Define Routes */}
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/xyz" element={<Dashboard />} /> 
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
