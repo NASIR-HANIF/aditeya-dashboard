@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// Helper function to format time
-const formatTime = (dateTimeStr) => {
+// Helper function to format date and time
+const formatDateTime = (dateTimeStr) => {
   if (!dateTimeStr) return 'No date available';
 
   const date = new Date(dateTimeStr);
+  const day = date.getDate();
+  const month = date.getMonth() + 1; // Months are zero-indexed
+  const year = date.getFullYear();
   const hours = date.getHours();
   const minutes = date.getMinutes();
   const ampm = hours >= 12 ? 'PM' : 'AM';
@@ -13,7 +16,7 @@ const formatTime = (dateTimeStr) => {
   const formattedHours = hours % 12 || 12; // Convert to 12-hour format
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
 
-  return `${formattedHours}-${formattedMinutes} ${ampm}`;
+  return `${day}/${month}/${year} ${formattedHours}:${formattedMinutes} ${ampm}`;
 };
 
 const Contact = () => {
@@ -44,6 +47,11 @@ const Contact = () => {
     : 'none';
   const backgroundColor = !data?.image ? '#FFBF00' : 'transparent';
 
+  // Function to open URL in a new tab
+  const openInNewTab = (url) => {
+    window.open(url, '_blank');
+  };
+
   return (
     <div
       style={{
@@ -68,7 +76,26 @@ const Contact = () => {
       >
         <h1>Contact Page</h1>
         <p>{data?.text || 'No message available'}</p>
-        <p>{formatTime(data?.dateTime)}</p>
+        <p>{formatDateTime(data?.dateTime)}</p>
+
+        {/* Show the URL and Open Button */}
+        {data?.url && (
+          <div>
+            <button 
+              style={{ marginTop: '10px', padding: '10px', backgroundColor: '#00FF00', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
+              onClick={() => openInNewTab(data.url)}
+            >
+              Open URL in New Tab
+            </button>
+          </div>
+        )}
+
+        {/* Show the Description */}
+        {data?.description && (
+          <div>
+            <p>Description: {data.description}</p>
+          </div>
+        )}
       </div>
     </div>
   );

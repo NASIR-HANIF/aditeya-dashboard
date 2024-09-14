@@ -9,13 +9,15 @@ export const getDataController = async (req, res) => {
       return res.status(404).json({ message: 'Data not found' });
     }
 
-    // Send the data along with image in response
+    // Send the data along with image, URL, and description in response
     res.status(200).json({
       message: 'Data fetched successfully!',
       data: {
         text: data.text,
         dateTime: data.dateTime,
-        image: data.image, // This is the base64 image
+        image: data.image, 
+        url: data.url, 
+        description: data.description, 
       }
     });
   } catch (error) {
@@ -28,13 +30,13 @@ export const getDataController = async (req, res) => {
 // Controller for POST request - Update or insert new data
 export const postDataController = async (req, res) => {
   try {
-    const { dateTime, text } = req.body;
+    const { dateTime, text, url, description } = req.body; // Extract URL and Description from the request body
     const image = req.file ? req.file.buffer.toString('base64') : null;
 
     // Update the data if it exists, or create new data if it doesn't
     const updatedData = await DataModel.findOneAndUpdate(
       {}, // No filter needed since only one record will exist
-      { image, dateTime, text }, // Fields to update
+      { image, dateTime, text, url, description }, // Fields to update
       { new: true, upsert: true } // Create new if not found (upsert)
     );
 
@@ -44,4 +46,5 @@ export const postDataController = async (req, res) => {
     res.status(500).json({ message: 'Error updating/creating data.' });
   }
 };
+
 

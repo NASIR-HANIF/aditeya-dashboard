@@ -28,6 +28,8 @@ const Dashboard = () => {
 
     // Append other fields
     formData.append('text', values.text);
+    formData.append('url', values.url); // URL field
+    formData.append('description', values.description); // Description field
 
     // Log formData for debugging
     for (let [key, value] of formData.entries()) {
@@ -102,6 +104,24 @@ const Dashboard = () => {
           rules={[{ required: true, message: 'Please enter text!' }]}
         >
           <Input placeholder="Enter your text" />
+        </Form.Item>
+
+        {/* URL Input */}
+        <Form.Item
+          label="URL"
+          name="url"
+          rules={[{ required: true, message: 'Please enter a URL!' }]}
+        >
+          <Input placeholder="Enter the URL" />
+        </Form.Item>
+
+        {/* Description Textarea */}
+        <Form.Item
+          label="Description"
+          name="description"
+          rules={[{ required: true, message: 'Please enter a description!' }]}
+        >
+          <Input.TextArea placeholder="Enter a description" rows={4} />
         </Form.Item>
 
         {/* Submit Button */}
